@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 2026 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	chosen {
+		zephyr,sram = &cpuapp_ram0;
+	};
+};
+
+/* Launch the PPR core (from the nordic-ppr snippet). */
+&cpuppr_vpr {
+	status = "okay";
+};
+
+/* Launch the FLPR core (from the nordic-flpr snippet). */
+&cpuflpr_vpr {
+	status = "okay";
+};
+
+/* STM -> ETR trace path drained by the application core (from nordic-log-stm). */
+&tbm {
+	status = "okay";
+};
+
+&coresight {
+	status = "okay";
+	mode = "stm-etr";
+};

@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) 2026 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/*
+ * Disable the radio core's default UART. Logs are forwarded over STM and the
+ * application core UART; this also prevents two cores accessing the same UART
+ * instance.
+ */
+&uart135 {
+	status = "disabled";
+};

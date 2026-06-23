@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2026 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# The STM multi-domain logging RAM regions are placed via the device tree, so
+# the partition manager is not needed and would otherwise conflict on the
+# multi-image nRF54H20 build.
+config PARTITION_MANAGER
+	default n
+
+config APP_CPURAD_RUN
+	bool "Build and run the logging app on the Radio core"
+	depends on SUPPORT_NETCORE
+	default y
+
+config APP_CPUPPR_RUN
+	bool "Build and run the logging app on the PPR core"
+	depends on SUPPORT_PPRCORE
+	default y
+
+config APP_CPUFLPR_RUN
+	bool "Build and run the logging app on the FLPR core"
+	depends on SUPPORT_FLPRCORE
+	default y
+
+source "share/sysbuild/Kconfig"
