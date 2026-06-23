@@ -32,7 +32,7 @@ int main(void)
 		}
 
 		cnt++;
-		k_sleep(K_MSEC(1000));
+		k_sleep(K_MSEC(100));
 	}
 
 	return 0;
