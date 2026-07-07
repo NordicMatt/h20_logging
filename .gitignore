@@ -8,3 +8,6 @@ build_*/
 .DS_Store
 *.swp
 .vscode/
+
+# Stray build/flash logs
+*.log
