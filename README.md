@@ -97,42 +97,55 @@ All images are flashed in the correct order automatically.
 
 ## Viewing the aggregated logs
 
-The device emits the multiplexed trace stream over its VCOM UART. Decode it on
-the host with `nrfutil trace stm`, supplying one domain ID per core you want to
-see. The core/domain IDs are:
+This sample uses **standalone** STM logging: the application core decodes the
+ETR data on-chip and prints ready-to-read, per-core log lines on its console
+VCOM UART. No host decoder or dictionary database is needed — just open the
+port. Each line is prefixed with the originating core (`app`, `rad`, `ppr`,
+`flpr`).
 
-| Core             | Prefix | ID   |
-| ---------------- | ------ | ---- |
-| Application core | `app`  | 0x22 |
-| Radio core       | `rad`  | 0x23 |
-| PPR              | `ppr`  | 0x2e |
-| FLPR             | `flpr` | 0x2d |
+The console UART runs at **1000000 baud** (see
+`boards/nrf54h20dk_nrf54h20_cpuapp.overlay`). Open the **highest-numbered** VCOM
+the DK exposes, for example with a plain terminal:
 
 ```bash
-nrfutil trace stm \
-  --database-config 0x22:build/h20_logging/zephyr/log_dictionary.json,\
-0x23:build/h20_logging_cpurad/zephyr/log_dictionary.json,\
-0x2e:build/h20_logging_cpuppr/zephyr/log_dictionary.json,\
-0x2d:build/h20_logging_cpuflpr/zephyr/log_dictionary.json \
-  --input-serialport /dev/ttyACM0 \
-  --baudrate 115200 \
-  --stdout ascii
+nrfutil device reset          # optional: to capture from boot
+# then read the VCOM at 1 Mbaud with your terminal of choice
 ```
 
-Notes:
+Typical output, all four cores interleaved on one port:
 
-- Pick the **highest-numbered** serial port exposed by the DK for the trace
-  output.
-- The decoded output looks like this, with each core identified by its prefix:
+```
+[00:00:01.000,000] <inf> app/h20_log: heartbeat 10
+[00:00:01.000,123] <inf> rad/h20_log: heartbeat 10
+[00:00:01.000,210] <inf> ppr/h20_log: heartbeat 10
+[00:00:01.000,298] <inf> flpr/h20_log: heartbeat 10
+```
 
-  ```
-  [00:00:01.000,000] <inf> app/h20_log: heartbeat 0
-  [00:00:01.000,123] <inf> rad/h20_log: heartbeat 0
-  [00:00:01.000,210] <inf> ppr/h20_log: heartbeat 0
-  [00:00:01.000,298] <inf> flpr/h20_log: heartbeat 0
-  ```
+### Timestamp rollover (`scripts/h20_logmon.py`)
 
-- Use `--output-ascii out.txt` instead of `--stdout ascii` to write to a file.
+The nRF54H20 CoreSight STM stamps records with a **32-bit hardware timestamp at
+40 MHz**. That counter overflows every `2^32 / 40e6 = 107.3741824 s`, so the
+printed log time **rolls back to `00:00:00` about every 1 min 47 s**. This is a
+display artifact only — the device does **not** reset: the per-core counters
+increment straight through the wrap. The on-chip decoder cannot widen the
+hardware counter, and the STM timestamp clock is not application-configurable,
+so the rollover is unwrapped on the host instead.
+
+`scripts/h20_logmon.py` reads the VCOM (or an existing capture), detects each
+rollover, and rewrites the timestamp as a continuous time since start:
+
+```bash
+# Live (uv/pipx auto-installs pyserial from the script's inline deps)
+uv run scripts/h20_logmon.py --port /dev/ttyACM1 --baud 1000000
+
+# Or re-process a capture file
+uv run scripts/h20_logmon.py --infile capture.log
+```
+
+With it, the clock climbs past `00:01:47` continuously (verified on hardware:
+heartbeat 1450 lands at `00:02:24`, matching 1450 × 100 ms). Rare STM decode
+glitches (~0.1 % of lines, documented by Nordic) are passed through unchanged
+rather than being mistaken for a rollover.
 
 ## Customising
 
