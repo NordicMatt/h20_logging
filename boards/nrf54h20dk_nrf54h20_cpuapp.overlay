@@ -10,6 +10,17 @@
 	};
 };
 
+/*
+ * Run the console (ETR-proxy output) UART at 1 Mbaud instead of 115200. The
+ * proxy drains the 4 KB ETR buffer to this UART; the faster it empties, the
+ * less it can overflow under bursty logging, and the more of a crashing core's
+ * final fault dump flushes out before the core halts. The host must open the
+ * VCOM at 1000000 baud to match.
+ */
+&uart136 {
+	current-speed = <1000000>;
+};
+
 /* Launch the PPR core (from the nordic-ppr snippet). */
 &cpuppr_vpr {
 	status = "okay";

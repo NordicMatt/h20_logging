@@ -1,0 +1,52 @@
+-- west flash: rebuilding
+[0/15] Performing build step for 'h20_logging_cpurad'
+ninja: no work to do.
+[1/15] Performing build step for 'h20_logging_cpuppr'
+ninja: no work to do.
+[3/15] Completed 'h20_logging_cpurad'
+[4/15] Performing build step for 'h20_logging_cpuflpr'
+ninja: no work to do.
+[6/15] Completed 'h20_logging_cpuppr'
+[7/15] Performing build step for 'h20_logging'
+ninja: no work to do.
+[9/15] Completed 'h20_logging_cpuflpr'
+[11/15] No install step for 'h20_logging'
+[12/15] Completed 'h20_logging'
+[12/15] Performing build step for 'uicr'
+ninja: no work to do.
+[14/15] No install step for 'uicr'
+[15/15] Completed 'uicr'
+WARNING: Specifying runner options for multiple domains is experimental.
+If problems are experienced, please specify a single domain using '--domain <domain>'
+-- west flash: using runner nrfutil
+-- runners.nrfutil: Flashing file: /tmp/claude-1000/-home-matt-claude-h20-tdm/e7d64a8b-ffdc-4bf7-a2ae-3f750c9f295b/scratchpad/h20_logging/build/h20_logging/zephyr/zephyr.hex
+-- runners.nrfutil: Connecting to probe
+-- runners.nrfutil: Programming image
+-- runners.nrfutil: Verifying image
+-- runners.nrfutil: Board(s) with serial number(s) 1051168133 flashed successfully.
+-- west flash: using runner nrfutil
+-- runners.nrfutil: Flashing file: /tmp/claude-1000/-home-matt-claude-h20-tdm/e7d64a8b-ffdc-4bf7-a2ae-3f750c9f295b/scratchpad/h20_logging/build/uicr/zephyr/zephyr.hex
+-- runners.nrfutil: Connecting to probe
+-- runners.nrfutil: Programming image
+-- runners.nrfutil: Verifying image
+-- runners.nrfutil: Board(s) with serial number(s) 1051168133 flashed successfully.
+-- west flash: using runner nrfutil
+-- runners.nrfutil: Flashing file: /tmp/claude-1000/-home-matt-claude-h20-tdm/e7d64a8b-ffdc-4bf7-a2ae-3f750c9f295b/scratchpad/h20_logging/build/h20_logging_cpurad/zephyr/zephyr.hex
+-- runners.nrfutil: Connecting to probe
+-- runners.nrfutil: Programming image
+-- runners.nrfutil: Verifying image
+-- runners.nrfutil: Board(s) with serial number(s) 1051168133 flashed successfully.
+-- west flash: using runner nrfutil
+-- runners.nrfutil: Flashing file: /tmp/claude-1000/-home-matt-claude-h20-tdm/e7d64a8b-ffdc-4bf7-a2ae-3f750c9f295b/scratchpad/h20_logging/build/h20_logging_cpuppr/zephyr/zephyr.hex
+-- runners.nrfutil: Connecting to probe
+-- runners.nrfutil: Programming image
+-- runners.nrfutil: Verifying image
+-- runners.nrfutil: Board(s) with serial number(s) 1051168133 flashed successfully.
+-- west flash: using runner nrfutil
+-- runners.nrfutil: reset after flashing requested
+-- runners.nrfutil: Flashing file: /tmp/claude-1000/-home-matt-claude-h20-tdm/e7d64a8b-ffdc-4bf7-a2ae-3f750c9f295b/scratchpad/h20_logging/build/h20_logging_cpuflpr/zephyr/zephyr.hex
+-- runners.nrfutil: Connecting to probe
+-- runners.nrfutil: Programming image
+-- runners.nrfutil: Verifying image
+-- runners.nrfutil: Reset
+-- runners.nrfutil: Board(s) with serial number(s) 1051168133 flashed successfully.
